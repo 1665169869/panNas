@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Jquery -->
+    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="/statics/js/dupan.js"></script>
+</head>
+
+<body>
+    <script>
+        $(document).ready(() => {
+            $("#login").click(() => {
+                let data = {
+                    username: $("#username").val(),
+                    password: $("#password").val()
+                }
+                $("#login").html('<span class="spinner-border spinner-border-sm"></span> 登录');
+                request({
+                    name: "login",
+                    data: data,
+                    success: (res) => {
+                        200 === res.data.code && 200 === res.status ? (
+                            window.location.replace("/home/")
+                        ) : (
+                            console.log(res.data.msg)
+                        )
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    },
+                    callback: () => {
+                        $("#login").text('登录');
+                    }
+                });
+            });
+        })
+    </script>
+    <div class="container">
+        <h1 class="h1 text-center">登录</h1>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="username">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">password</span>
+            <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" id="password">
+        </div>
+        <button class="btn btn-primary" id="login">
+            登录
+        </button>
+    </div>
+</body>
+
+</html>
