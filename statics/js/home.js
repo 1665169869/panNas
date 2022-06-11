@@ -37,37 +37,31 @@ $(document).ready(function () {
             },
         });
     });
+    let sign;
     $("#qrcode").click(() => {
         request({
             name: "qrcode",
             success: (res) => {
                 let img_url = undefined;
                 if (200 === res.data.code && 200 === res.status) {
+                    sign = res.data.result.sign;
                     imgurl = "/api/dupan/login/qrcodebytes?sign=" + res.data.result.sign;
                     $("#qrcode img").attr("src", imgurl);
-                    // do {
-                    //
-                    // } while()
+                }
+            }
+        });
+    });
+    $("#is_login").click(() => {
+        request({
+            name: "is_login",
+            data: {sign: sign},
+            success: (res) => {
+                if (res.data.code === 200) {
+
+                } else {
+
                 }
             }
         });
     });
 });
-
-// 如果第一次请求，则获取二维码并执行is_login
-// 如果已经执行了is_login期间点击了二维码 则停止任务并重新执行is_login
-
-async function is_login(sign) {
-    return await new Promise(resolve => {
-        request({
-            name: "is_login",
-            data: {
-                sign: defaultConfigs.sign
-            },
-            async: true,
-            success: (res) => {
-                resolve()
-            }
-        })
-    })
-}
